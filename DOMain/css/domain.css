@@ -32,32 +32,31 @@ body {
     background-color: yellow;
 }
 
-.gameSpriteWrapper {
-    display: block;
-    -webkit-transform: rotateX(-30deg)
+.gameSprites {
+    -webkit-transform: translateX(5px) translateY(-15px) translateZ(15px) rotateX(-30deg);
+    -webkit-transform-style:preserve-3d;
+    -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
     height: 64px;
+    position: relative;
 }
 
 .gameSprite {
-    position: relative;
-    display: inline-block;
-    -webkit-transform: translateX(25px) translateZ(10px) rotateX(-30deg) scale(1.5);
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+    position: absolute;
+    bottom: 0;
+}
 
+.gameSprite.shadow {
+    -webkit-filter: drop-shadow(0px 16px 7px rgba(0,0,0,0.8));
+    filter: drop-shadow(0px 16px 7px rgba(0,0,0,0.8));
+}
+
+.gameSprite.middle {
+    right: 15px;
 }
 
 .gameSprite.hidden {
     /*display: none;*/
-}
-
-.gameSprite img {
-    position: absolute;
-    /*height: 100%;*/
-    -webkit-filter: drop-shadow(0px 16px 7px rgba(0,0,0,0.8));
-    filter: drop-shadow(0px 16px 7px rgba(0,0,0,0.8));
 }
 
 
