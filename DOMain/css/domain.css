@@ -33,7 +33,7 @@ body {
 }
 
 .gameSprites {
-    -webkit-transform: translateX(5px) translateY(-15px) translateZ(15px) rotateX(-30deg);
+    -webkit-transform: translateX(5px) translateY(-15px) translateZ(20px) rotateX(-30deg);
     -webkit-transform-style:preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
