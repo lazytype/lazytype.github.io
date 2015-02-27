@@ -23,12 +23,12 @@ var Sprite = React.createClass({
         );
     },
     componentDidMount: function() {
-        window.addEventListener('resize', this._onWindowResize);
+        window.addEventListener('resize', this.onWindowResizeHandler);
     },
     componentWillUnmount: function() {
-        window.addEventListener('resize', this._onWindowResize);
+        window.removeEventListener('resize', this.onWindowResizeHandler);
     },
-    _onWindowResize: function() {
+    onWindowResizeHandler: function() {
         this.forceUpdate();
     },
 });
