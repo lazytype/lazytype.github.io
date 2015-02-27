@@ -11,42 +11,20 @@ var Sprite = React.createClass({
         // var rect = parentNode.getBoundingClientRect();
         var style;
 
-        if (true || data.position === 'middle') {
-            style = {
-                // left: .5 * (rect.left + rect.right - rect.height * this.props.width / this.props.height),
-                // top: rect.top - .4 * rect.height,
-                // height: rect.height
-                //top: '5px',
-                zIndex: data.zIndex,
-
-                //height: '100%',
-                //width: //rect.height * data.width / data.height
-            }
-        } else {
-
-        }
-
         var className = 'gameSprite';
         if (this.state.hidden) {
             className += ' hidden';
         }
+        if (data.position === 'middle') {
+            className += ' middle';
+            className += ' shadow';
+        }
 
         return (
-            <div className="gameSpriteWrapper">
-                <div className={className} style={style}>
-                    <img src={data.image} className={data.className}/>
-                </div>
-            </div>
+            <span className={className} style={style}>
+                <img src={data.image} className={data.className}/>
+            </span>
         );
-    },
-    componentDidMount: function() {
-        window.addEventListener('resize', this.onWindowResizeHandler);
-    },
-    componentWillUnmount: function() {
-        window.removeEventListener('resize', this.onWindowResizeHandler);
-    },
-    onWindowResizeHandler: function() {
-        this.forceUpdate();
     },
 });
 
@@ -62,7 +40,9 @@ var Tile = React.createClass({
 
         return (
             <span className="gameTile">
-                {sprites}
+                <div className="gameSprites">
+                    {sprites}
+                </div>
             </span>
         );
     },
