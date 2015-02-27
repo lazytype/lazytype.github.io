@@ -1,22 +1,9 @@
-var TILE_WIDTH = 12;
-var TILE_HEIGHT = 12;
-
 var Sprite = React.createClass({
-    getInitialState: function() {
-        return {hidden: true}
-    },
     render: function() {
         var data = this.props.data;
-
-        var style;
-
         var className = 'gameSprite ' + data.className;
-        if (this.state.hidden) {
-            className += ' hidden';
-        }
-
         return (
-            <span className={className} style={style}>
+            <span className={className}>
                 <img src={data.image} className={data.imageClassName}/>
             </span>
         );
@@ -26,30 +13,62 @@ var Sprite = React.createClass({
 
 var Tile = React.createClass({
     render: function() {
-        var sprites = {};
-        for (var key in SPRITES) {
-            if (SPRITES.hasOwnProperty(key)) {
-                sprites[key] = <Sprite data={SPRITES[key]} />
-            }
+        var spriteSet = this.props.game.board.at(this.props.location).sprites;
+        var sprites = [];
+        for (var key in spriteSet) {
+          if (spriteSet[key] && spriteSet.hasOwnProperty(key)) {
+            sprites.push(
+              <Sprite
+                key={key}
+                data={SPRITES[key]}
+                game={this.props.game}
+              />
+            );
+          }
+        }
+        if (this.props.game.player.isAt(this.props.location)) {
+          sprites.push(
+            <Sprite
+              key="swordsman"
+              data={SPRITES.swordsman}
+              game={this.props.game}
+            />
+          );
+        }
+
+        var className = 'gameTile';
+        if (canPlayerMoveTo(this.props.game, this.props.location)) {
+          className += ' canMoveTo';
         }
 
         return (
-            <span className="gameTile">
+            <span className={className} onClick={this._onClick}>
                 <div className="gameSprites">
                     {sprites}
                 </div>
             </span>
         );
     },
+
+    _onClick: function() {
+      Action.move(this.props.location);
+    },
 });
 
 
 var TileRow = React.createClass({
     render: function() {
-        var tiles = {}
-        for (var i = 0; i < TILE_WIDTH; i++) {
-            tiles['tile' + i] = <Tile />;
-        }
+        var tiles = this.props.game.board.rows[this.props.row].cols.map(
+          (function(_, i) {
+            return (
+              <Tile
+                key={'tile' + i}
+                location={{row: this.props.row, col: i}}
+                game={this.props.game}
+              />
+            );
+          }).bind(this)
+        );
         return (
             <div className="gameTileRow">
                 {tiles}
@@ -60,12 +79,38 @@ var TileRow = React.createClass({
 
 
 var Container = React.createClass({
-    render: function() {
-        rows = {}
+    getInitialState: function() {
+      return {
+        game: GameStore.getState(),
+      };
+    },
 
-        for (var i = 0; i < TILE_HEIGHT; i++) {
-            rows['row' + i] = <TileRow />;
-        }
+    componentDidMount: function() {
+      GameStore.addListener(this._onGameStateChange);
+    },
+
+    componentWillUnmount: function() {
+      GameStore.removeListener(this._onGameStateChange);
+    },
+
+    _onGameStateChange: function() {
+      this.setState({
+        game: GameStore.getState(),
+      });
+    },
+
+    render: function() {
+        var rows = this.state.game.board.rows.map(
+          (function(_, i) {
+            return (
+              <TileRow
+                key={'row' + i}
+                row={i}
+                game={this.state.game}
+              />
+            );
+          }).bind(this)
+        );
 
         return (
             <div className="gameContainer">
