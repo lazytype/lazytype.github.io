@@ -11,7 +11,7 @@ var Sprite = React.createClass({
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
             >
-                <img src="../img/sword.png" className="animated bounce"/>
+                <img src="./img/sword.png" className="animated bounce"/>
             </div>
         );
     }
