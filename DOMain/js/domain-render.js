@@ -2,23 +2,38 @@ var TILE_WIDTH = 12;
 var TILE_HEIGHT = 12;
 
 var Sprite = React.createClass({
+    getInitialState: function() {
+        return {hidden: true}
+    },
     render: function() {
-        var node = this.props.tile.getDOMNode();
-        var rect = node.getBoundingClientRect();
-        var style = {
-            left: .5 * (rect.left + rect.right - rect.height * 19 / 45.),
-            top: rect.top - .4 * rect.height,
-            height: rect.height
-        };
+        var data = this.props.data;
+        // var parent = this.getDOMNode().parentNode;
+        // var rect = parentNode.getBoundingClientRect();
+        var style;
+
+        if (true || data.position === 'middle') {
+            style = {
+                // left: .5 * (rect.left + rect.right - rect.height * this.props.width / this.props.height),
+                // top: rect.top - .4 * rect.height,
+                // height: rect.height
+                top: '5px',
+                zIndex: data.zIndex,
+
+                //height: '100%',
+                //width: //rect.height * data.width / data.height
+            }
+        } else {
+
+        }
+
+        var className = 'gameSprite';
+        if (this.state.hidden) {
+            className += ' hidden';
+        }
 
         return (
-            <div
-                className="gameSprite "
-                style={style}
-                onMouseEnter={this.props.onMouseEnter}
-                onMouseLeave={this.props.onMouseLeave}
-            >
-                <img src={this.props.image} className={this.props.className}/>
+            <div className={className} style={style}>
+                <img src={data.image} className={data.className}/>
             </div>
         );
     },
@@ -35,56 +50,19 @@ var Sprite = React.createClass({
 
 
 var Tile = React.createClass({
-    getInitialState: function() {
-        return {hovered: false, spriteHovered: false};
-    },
     render: function() {
-        var className = 'gameTile';
-        if (this.state.hovered || this.state.spriteHovered) {
-            className += ' hover';
+        var sprites = {};
+        for (var key in SPRITES) {
+            if (SPRITES.hasOwnProperty(key)) {
+                sprites[key] = <Sprite data={SPRITES[key]} />
+            }
         }
+
         return (
-            <span
-                className={className}
-                onMouseEnter={this.onMouseEnterHandler}
-                onMouseLeave={this.onMouseLeaveHandler}
-            ></span>
+            <span className="gameTile">
+                {sprites}
+            </span>
         );
-    },
-    componentDidMount: function() {
-        var sprite = (
-            <Sprite
-                tile={this}
-                image="./img/sword.png"
-                className="animated bounce"
-                onMouseEnter={this.onSpriteMouseEnterHandler}
-                onMouseLeave={this.onSpriteMouseLeaveHandler}
-            ></Sprite>
-        );
-        React.render(
-            sprite,
-            document.getElementById(this.props.spriteId)
-        );
-    },
-    onMouseEnterHandler: function () {
-        this.setState({
-            hovered: true
-        })
-    },
-    onMouseLeaveHandler: function () {
-        this.setState({
-            hovered: false
-        })
-    },
-    onSpriteMouseEnterHandler: function () {
-        this.setState({
-            spriteHovered: true
-        })
-    },
-    onSpriteMouseLeaveHandler: function () {
-        this.setState({
-            spriteHovered: false
-        })
     },
 });
 
@@ -93,9 +71,7 @@ var TileRow = React.createClass({
     render: function() {
         var tiles = {}
         for (var i = 0; i < TILE_WIDTH; i++) {
-            tiles['tile' + i] = (
-                <Tile spriteId={this.props.spriteRow['sprite' + i]} />
-            );
+            tiles['tile' + i] = <Tile />;
         }
         return (
             <div className="gameTileRow">
@@ -109,36 +85,14 @@ var TileRow = React.createClass({
 var Container = React.createClass({
     render: function() {
         rows = {}
-        sprites = {}
 
         for (var i = 0; i < TILE_HEIGHT; i++) {
-            var spriteRow = {}
-            var spriteIdRow = {}
-            for (var j = 0; j < TILE_WIDTH; j++) {
-                var id = 'sprite-' + i + '-' + j;
-                spriteRow['sprite' + j] = <div id={id}></div>;
-                spriteIdRow['sprite' + j] = id;
-            }
-            sprites['row' + i] = spriteRow;
-            rows['row' + i] = <TileRow spriteRow={spriteIdRow}/>;
+            rows['row' + i] = <TileRow />;
         }
 
-        var spriteContainer = (
-            <div className="spriteContainer" ref="spriteContainer">
-                {sprites}
-            </div>
-        )
-
-        var gameContainer = (
-            <div className="gameContainer" ref="gameContainer">
-                {rows}
-            </div>
-        )
-
         return (
-            <div>
-                {gameContainer}
-                {spriteContainer}
+            <div className="gameContainer">
+                {rows}
             </div>
         );
     }
