@@ -32,6 +32,13 @@ body {
     background-color: yellow;
 }
 
+.gameSpriteWrapper {
+    display: block;
+    -webkit-transform: rotateX(-30deg)
+    transform-style: preserve-3d;
+    height: 64px;
+}
+
 .gameSprite {
     position: relative;
     display: inline-block;

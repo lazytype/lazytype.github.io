@@ -16,7 +16,7 @@ var Sprite = React.createClass({
                 // left: .5 * (rect.left + rect.right - rect.height * this.props.width / this.props.height),
                 // top: rect.top - .4 * rect.height,
                 // height: rect.height
-                top: '5px',
+                //top: '5px',
                 zIndex: data.zIndex,
 
                 //height: '100%',
@@ -32,8 +32,10 @@ var Sprite = React.createClass({
         }
 
         return (
-            <div className={className} style={style}>
-                <img src={data.image} className={data.className}/>
+            <div className="gameSpriteWrapper">
+                <div className={className} style={style}>
+                    <img src={data.image} className={data.className}/>
+                </div>
             </div>
         );
     },
