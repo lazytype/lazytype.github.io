@@ -3,18 +3,34 @@ var TILE_HEIGHT = 12;
 
 var Sprite = React.createClass({
     render: function() {
+        var node = this.props.tile.getDOMNode();
+        var rect = node.getBoundingClientRect();
+        var style = {
+            left: .5 * (rect.left + rect.right - rect.height * 19 / 45.),
+            top: rect.top - .4 * rect.height,
+            height: rect.height
+        };
+
         return (
             <div
-                className="gameSprite"
-                id={this.props.id}
-                style={this.props.style}
+                className="gameSprite "
+                style={style}
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
             >
                 <img src="./img/sword.png" className="animated bounce"/>
             </div>
         );
-    }
+    },
+    componentDidMount: function() {
+        window.addEventListener('resize', this._onWindowResize);
+    },
+    componentWillUnmount: function() {
+        window.addEventListener('resize', this._onWindowResize);
+    },
+    _onWindowResize: function() {
+        this.forceUpdate();
+    },
 });
 
 var Tile = React.createClass({
@@ -35,19 +51,15 @@ var Tile = React.createClass({
         );
     },
     componentDidMount: function() {
-        var node = this.getDOMNode();
-        var rect = node.getBoundingClientRect();
-        var style = {
-            left: .5 * (rect.left + rect.right - rect.height * 19 / 45.),
-            top: rect.top - .4 * rect.height,
-            height: rect.height
-        };
-        React.render(
+        var sprite = (
             <Sprite
-                style={style}
+                tile={this}
                 onMouseEnter={this.onSpriteMouseEnterHandler}
                 onMouseLeave={this.onSpriteMouseLeaveHandler}
-            ></Sprite>,
+            ></Sprite>
+        );
+        React.render(
+            sprite,
             document.getElementById(this.props.spriteId)
         );
     },
