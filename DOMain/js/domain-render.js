@@ -7,22 +7,17 @@ var Sprite = React.createClass({
     },
     render: function() {
         var data = this.props.data;
-        // var parent = this.getDOMNode().parentNode;
-        // var rect = parentNode.getBoundingClientRect();
+
         var style;
 
-        var className = 'gameSprite';
+        var className = 'gameSprite ' + data.className;
         if (this.state.hidden) {
             className += ' hidden';
-        }
-        if (data.position === 'middle') {
-            className += ' middle';
-            className += ' shadow';
         }
 
         return (
             <span className={className} style={style}>
-                <img src={data.image} className={data.className}/>
+                <img src={data.image} className={data.imageClassName}/>
             </span>
         );
     },

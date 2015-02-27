@@ -33,7 +33,7 @@ body {
 }
 
 .gameSprites {
-    -webkit-transform: translateX(5px) translateY(-15px) translateZ(20px) rotateX(-30deg);
+    -webkit-transform: translateX(5px) translateY(-15px) translateZ(10px) rotateX(-30deg);
     -webkit-transform-style:preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -51,14 +51,25 @@ body {
     filter: drop-shadow(0px 16px 7px rgba(0,0,0,0.8));
 }
 
+.gameSprite.left {
+    left: -4px;
+}
+
 .gameSprite.middle {
-    right: 15px;
+    right: 28px;
+}
+
+.gameSprite.high {
+    top: -2px;
 }
 
 .gameSprite.hidden {
     /*display: none;*/
 }
 
+.gameSprite img {
+    width: 120%;
+}
 
 .animated {
     -webkit-animation-duration: 2s;
