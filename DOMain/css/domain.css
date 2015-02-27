@@ -30,7 +30,6 @@ body {
 
 .gameSprite {
     position: absolute;
-    z-index: 2;
 }
 
 .gameSprite.hidden {

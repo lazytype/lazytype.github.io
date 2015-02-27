@@ -18,7 +18,7 @@ var Sprite = React.createClass({
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
             >
-                <img src="./img/sword.png" className="animated bounce"/>
+                <img src={this.props.image} className={this.props.className}/>
             </div>
         );
     },
@@ -32,6 +32,7 @@ var Sprite = React.createClass({
         this.forceUpdate();
     },
 });
+
 
 var Tile = React.createClass({
     getInitialState: function() {
@@ -54,6 +55,8 @@ var Tile = React.createClass({
         var sprite = (
             <Sprite
                 tile={this}
+                image="./img/sword.png"
+                className="animated bounce"
                 onMouseEnter={this.onSpriteMouseEnterHandler}
                 onMouseLeave={this.onSpriteMouseLeaveHandler}
             ></Sprite>
